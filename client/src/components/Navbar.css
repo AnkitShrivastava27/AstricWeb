@@ -106,17 +106,25 @@
 
 /* Mobile menu */
 .mobile-menu {
-  display: none;
+  display: flex;
   flex-direction: column;
-  padding: 1rem 1.5rem 1.5rem;
+  padding: 0 1.5rem; /* remove top padding initially */
   background: rgba(250,250,248,0.98);
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--gray-200);
+
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease;
+  opacity: 0;
+  visibility: hidden;
+
+  transition: max-height 0.35s ease, opacity 0.25s ease;
 }
-.mobile-menu.open { max-height: 500px; }
+
+.mobile-menu.open {  max-height: 500px;
+  padding: 1rem 1.5rem 1.5rem;
+  opacity: 1;
+  visibility: visible; }
 
 .mob-link {
   padding: 12px 0;
