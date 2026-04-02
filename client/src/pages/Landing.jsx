@@ -119,7 +119,7 @@ export default function Landing() {
             <div className="phone-screen">
               <div className="phone-header">
                 <span className="phone-dot" />
-                <span className="phone-title">BizNexus AI</span>
+                <span className="phone-title">Astric AI</span>
                 <span className="phone-badge">Premium</span>
               </div>
               <div className="phone-chat">
