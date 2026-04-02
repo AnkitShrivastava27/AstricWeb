@@ -1,0 +1,157 @@
+/* ── Shared page hero ────────────────────────────────────── */
+.page-hero {
+  padding: 9rem 2rem 5rem;
+  text-align: center;
+  position: relative;
+  background: var(--white);
+}
+.page-hero h1 { max-width: 700px; margin: 1.5rem auto 0; }
+.page-hero h1 em { font-style: italic; }
+.page-hero-sub {
+  max-width: 580px;
+  margin: 1.5rem auto 0;
+  font-size: 1rem;
+  color: var(--gray-700);
+  line-height: 1.75;
+}
+.hero-shimmer-line {
+  height: 1px;
+  margin-top: 4rem;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  opacity: 0.4;
+}
+
+/* ── Modules ─────────────────────────────────────────────── */
+.modules-section { background: var(--white); }
+
+.module-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+.module-row:last-child { border-bottom: none; }
+.module-flip .module-visual { order: 2; }
+.module-flip .module-copy   { order: 1; }
+
+.module-visual { display: flex; justify-content: center; }
+
+.module-card {
+  width: 100%;
+  max-width: 340px;
+  background: var(--white-pure);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.module-icon-wrap {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.module-icon { font-size: 1.6rem; }
+
+.module-accent-bar {
+  height: 2px;
+  width: 80px;
+  border-radius: 1px;
+  margin-bottom: 1.5rem;
+}
+
+.mock-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.mock-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.mock-line { height: 8px; border-radius: 4px; }
+
+.module-copy { display: flex; flex-direction: column; gap: 0.75rem; }
+.module-copy h3 { font-size: 1.75rem; }
+
+.module-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 0.25rem;
+}
+.module-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--gray-700);
+}
+.bullet-check { font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* ── Compare table ───────────────────────────────────────── */
+.compare-section { background: var(--gray-100); }
+.section-head { text-align: center; margin-bottom: 2.5rem; }
+.section-head h2 em { font-style: italic; }
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white-pure);
+  font-size: 0.875rem;
+}
+
+.compare-table th {
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--black);
+  background: var(--white-pure);
+  border-bottom: 2px solid var(--gray-200);
+}
+.compare-table th:first-child { text-align: left; }
+.compare-table th span {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin-top: 2px;
+}
+
+.th-highlight { background: rgba(200,169,110,0.06) !important; color: var(--gold-dark) !important; }
+
+.compare-table td {
+  padding: 1rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--gray-200);
+  color: var(--gray-700);
+}
+.compare-table td:first-child { text-align: left; }
+.td-feature { font-weight: 500; color: var(--black); }
+.td-highlight { background: rgba(200,169,110,0.04); color: var(--gold-dark); font-weight: 600; }
+.tr-alt td { background: rgba(0,0,0,0.012); }
+
+.compare-cta { text-align: center; margin-top: 2rem; }
+.compare-note { font-size: 0.82rem; color: var(--gray-500); }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .module-row { grid-template-columns: 1fr; gap: 2rem; }
+  .module-flip .module-visual { order: unset; }
+  .module-flip .module-copy   { order: unset; }
+  .module-card { max-width: 100%; }
+}
