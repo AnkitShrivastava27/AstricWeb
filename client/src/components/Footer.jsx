@@ -62,14 +62,17 @@ export default function Footer() {
           <Link to="/about">About Us</Link>
           <Link to="/about#team">Team</Link>
           <Link to="/contact">Contact</Link>
-          <a href="#" target="_blank" rel="noreferrer">Privacy Policy</a>
+          <a href="https://bussiness-3c966.web.app/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>
         </div>
 
         <div className="footer-col">
           <h5 className="footer-col-title">Support</h5>
           <Link to="/support">Help Center</Link>
           <Link to="/support#faq">FAQ</Link>
-          <Link to="/support#docs">Documentation</Link>
+         
+           <a href="https://bussiness-3c966.web.app/AstricHelp" target="_blank" rel="noopener noreferrer">
+    Documentation
+  </a>
           <Link to="/contact">Report a Bug</Link>
         </div>
 
