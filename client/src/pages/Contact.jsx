@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import './Contact.css';
 
@@ -14,15 +14,18 @@ const SUBJECTS = [
 ];
 
 const INFO = [
-  { icon: '📧', label: 'Email', value: 'support@astrictechnologies.com', href: 'mailto:support@astrictechnologies.com' },
-  { icon: '📍', label: 'Location', value: 'India', href: null },
+  { icon: '📧', label: 'Email',         value: 'support@astrictechnologies.com', href: 'mailto:support@astrictechnologies.com' },
+  { icon: '📍', label: 'Location',      value: 'India',          href: null },
   { icon: '⏰', label: 'Response time', value: 'Within 24 hours', href: null },
 ];
 
+const EMPTY = { name: '', email: '', company: '', subject: '', message: '' };
+
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', company: '', subject: '', message: '' });
+  const [form,    setForm]    = useState(EMPTY);
   const [loading, setLoading] = useState(false);
-  const [sent, setSent]       = useState(false);
+  const [sent,    setSent]    = useState(false);
+  const sentEmail = useRef('');
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -46,21 +49,25 @@ export default function Contact() {
     setLoading(true);
     try {
       const res  = await fetch('/api/contact', {
-        method: 'POST',
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body:    JSON.stringify(form),
       });
       const data = await res.json();
       if (data.success) {
+        sentEmail.current = form.email;
         setSent(true);
+        setForm(EMPTY);
         toast.success(data.message);
-        setForm({ name: '', email: '', company: '', subject: '', message: '' });
       } else {
-        const errMsg = data.errors ? data.errors[0].msg : (data.message || 'Something went wrong.');
-        toast.error(errMsg);
+        const msg = data.errors ? data.errors[0].msg : (data.message || 'Something went wrong.');
+        toast.error(msg);
       }
-    } catch { toast.error('Connection error. Please try again.'); }
-    finally { setLoading(false); }
+    } catch {
+      toast.error('Connection error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -74,7 +81,8 @@ export default function Contact() {
             Let's talk<br /><em className="gold-text">business.</em>
           </h1>
           <p className="page-hero-sub animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            Have a question, want early access, or just want to say hi? We read every message and reply within 24 hours.
+            Have a question, want early access, or just want to say hi?
+            We read every message and reply within 24 hours.
           </p>
         </div>
         <div className="hero-shimmer-line" />
@@ -84,14 +92,16 @@ export default function Contact() {
       <section className="section contact-section">
         <div className="container contact-inner">
 
-          {/* Left info */}
+          {/* Left — info */}
           <div className="contact-info reveal">
             <div className="info-block">
               <p className="section-label">Contact Info</p>
               <h3>We're real people,<br />not a chatbot.</h3>
               <div className="gold-line" />
-              <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', lineHeight: 1.75 }}>
-                Every message goes directly to our team. Whether you're reporting a bug, asking about pricing, or requesting early access — we'll get back to you personally.
+              <p style={{ fontSize: '1rem', color: 'var(--gray-500)', lineHeight: 1.75 }}>
+                Every message goes directly to our team. Whether you're reporting a bug,
+                asking about pricing, or requesting early access — we'll get back to
+                you personally.
               </p>
             </div>
 
@@ -118,41 +128,54 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right form */}
+          {/* Right — form */}
           <div className="contact-form-wrap reveal reveal-delay-2">
             {sent ? (
               <div className="sent-state">
                 <div className="sent-icon">✅</div>
                 <h3>Message sent!</h3>
-                <p>Thanks for reaching out. We'll reply to <strong>{form.email || 'your email'}</strong> within 24 hours.</p>
-                <button className="btn btn-outline" onClick={() => setSent(false)} style={{ marginTop: '1rem' }}>Send another message</button>
+                <p>
+                  Thanks for reaching out. We'll reply to{' '}
+                  <strong>{sentEmail.current}</strong> within 24 hours.
+                </p>
+                <button
+                  className="btn btn-outline"
+                  onClick={() => setSent(false)}
+                  style={{ marginTop: '1rem' }}
+                >
+                  Send another message
+                </button>
               </div>
             ) : (
               <form className="contact-form" onSubmit={handleSubmit} noValidate>
                 <div className="form-title">
                   <h3>Send a message</h3>
-                  <p>All fields marked * are required.</p>
+                  <p>Fields marked * are required.</p>
                 </div>
 
                 <div className="form-row">
                   <div className="form-field">
                     <label className="form-label">Full Name *</label>
-                    <input name="name" value={form.name} onChange={handleChange} className="input" placeholder="Jane Doe" required />
+                    <input name="name" value={form.name} onChange={handleChange}
+                      className="input" placeholder="Jane Doe" required />
                   </div>
                   <div className="form-field">
                     <label className="form-label">Email *</label>
-                    <input name="email" type="email" value={form.email} onChange={handleChange} className="input" placeholder="jane@company.com" required />
+                    <input name="email" type="email" value={form.email} onChange={handleChange}
+                      className="input" placeholder="jane@company.com" required />
                   </div>
                 </div>
 
                 <div className="form-row">
                   <div className="form-field">
                     <label className="form-label">Company <span className="opt">(optional)</span></label>
-                    <input name="company" value={form.company} onChange={handleChange} className="input" placeholder="Acme Corp" />
+                    <input name="company" value={form.company} onChange={handleChange}
+                      className="input" placeholder="Acme Corp" />
                   </div>
                   <div className="form-field">
                     <label className="form-label">Subject *</label>
-                    <select name="subject" value={form.subject} onChange={handleChange} className="input select-input" required>
+                    <select name="subject" value={form.subject} onChange={handleChange}
+                      className="input select-input" required>
                       <option value="">Select a subject…</option>
                       {SUBJECTS.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
@@ -161,19 +184,18 @@ export default function Contact() {
 
                 <div className="form-field">
                   <label className="form-label">Message *</label>
-                  <textarea name="message" value={form.message} onChange={handleChange} className="input" placeholder="Tell us what's on your mind…" rows={5} required />
+                  <textarea name="message" value={form.message} onChange={handleChange}
+                    className="input" placeholder="Tell us what's on your mind…"
+                    rows={5} required />
                 </div>
 
                 <button type="submit" className="btn btn-gold submit-btn" disabled={loading}>
-                  {loading ? (
-                    <><span className="spinner" /> Sending…</>
-                  ) : (
-                    <>Send Message ✦</>
-                  )}
+                  {loading ? <><span className="spinner" /> Sending…</> : <>Send Message ✦</>}
                 </button>
 
                 <p className="form-note">
-                  By submitting, you agree that we may use your information to respond to your enquiry. We never spam.
+                  Your message is saved securely and our team is notified by email.
+                  We never spam.
                 </p>
               </form>
             )}
@@ -181,14 +203,14 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Bottom cards */}
+      {/* Bottom quick-links */}
       <section className="section quick-links-section">
         <div className="container">
           <div className="quick-links-grid">
             {[
-              { icon: '📖', title: 'Read the Docs', desc: 'Step-by-step guides for every feature in Astric.', href: '/how-to-use', label: 'View Guides' },
-              { icon: '❓', title: 'Browse FAQ', desc: 'Quick answers to the most common questions.', href: '/support', label: 'See FAQ' },
-              { icon: '🐛', title: 'Report a Bug', desc: 'Something not working? We fix bugs fast.', href: null, label: 'Email Us' },
+              { icon: '📖', title: 'Read the Docs',  desc: 'Step-by-step guides for every feature in Astric.', href: '/how-to-use', label: 'View Guides' },
+              { icon: '❓', title: 'Browse FAQ',      desc: 'Quick answers to the most common questions.',      href: '/support',    label: 'See FAQ' },
+              { icon: '🐛', title: 'Report a Bug',    desc: 'Something not working? We fix bugs fast.',         href: null,          label: 'Email Us' },
             ].map((c, i) => (
               <div key={i} className="quick-card card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                 <span className="quick-icon">{c.icon}</span>

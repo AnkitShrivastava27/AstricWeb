@@ -1,40 +1,40 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { DownloadButton } from '../components/Navbar.jsx';
 import './Landing.css';
 
 const FEATURES = [
-  { icon: '🤖', title: 'AI Business Assistant', desc: 'Ask anything. Get instant answers about your tasks, leads, revenue, and more — powered by DeepSeek AI.' },
-  { icon: '👥', title: 'CRM & Lead Pipeline', desc: 'Track leads through every stage. Hot prospects, win rates, pipeline value — all in one place.' },
+  { icon: '🤖', title: 'AI Business Assistant', desc: 'Ask anything in plain English. Get instant answers about your tasks, leads, and revenue — powered by DeepSeek AI with live data.' },
+  { icon: '👥', title: 'CRM & Lead Pipeline', desc: 'Track leads from first contact to closed deal. Hot prospects, win rates, and pipeline value — all in one view.' },
   { icon: '✅', title: 'Task Management', desc: 'Assign tasks, set deadlines, track overdue items. Know exactly what needs to get done today.' },
   { icon: '💰', title: 'Finance & Invoicing', desc: 'Monitor income, expenses, and net balance. Real-time financial snapshot always in your pocket.' },
-  { icon: '🌐', title: 'AI Website Builder', desc: 'Generate a complete business website with a single prompt. Edit, preview, and copy — no code needed.' },
-  { icon: '📊', title: 'Live Business Insights', desc: 'Your AI has access to live Firestore data — it sees your real numbers, not generic advice.' },
+  { icon: '🌐', title: 'AI Website Builder', desc: 'Generate a complete business website with a single prompt. Preview in-app, copy the HTML, and host anywhere.' },
+  { icon: '📊', title: 'Live Business Insights', desc: 'Your AI sees your real Firestore data — not generic advice. Real numbers, real answers, every time.' },
 ];
 
 const PLANS = [
-  { name: 'Basic', price: 'Free', tokens: '10,000', web: '—', edit: '—', highlight: false,
+  { name: 'Basic', price: 'Free', tokens: '10,000', highlight: false,
     perks: ['10,000 tokens/month', 'AI chat assistant', 'CRM & leads', 'Task management', 'Finance tracking'] },
-  { name: 'Standard', price: '₹499', tokens: '50,000', web: '✓', edit: '—', highlight: true,
+  { name: 'Standard', price: '₹499', tokens: '50,000', highlight: true,
     perks: ['50,000 tokens/month', 'Everything in Basic', 'AI website generation', 'Add-on tokens available', 'Priority support'] },
-  { name: 'Premium', price: '₹999', tokens: '1,00,000', web: '✓', edit: '✓', highlight: false,
+  { name: 'Premium', price: '₹999', tokens: '1,00,000', highlight: false,
     perks: ['1,00,000 tokens/month', 'Everything in Standard', 'AI website editing', 'Annual billing discount', 'Dedicated support'] },
 ];
 
 const STATS = [
   { value: '6+', label: 'Core Modules' },
-  { value: '3', label: 'Plan Tiers' },
-  { value: '1', label: 'App, all you need' },
-  { value: '∞', label: 'Possibilities' },
+  { value: '3',  label: 'Plan Tiers' },
+  { value: '1',  label: 'App, all you need' },
+  { value: '∞',  label: 'Possibilities' },
 ];
 
 export default function Landing() {
-  const [email, setEmail]   = useState('');
+  const [email,   setEmail]   = useState('');
   const [loading, setLoading] = useState(false);
   const heroRef = useRef(null);
-  const sectRef = useRef(null);
 
-  // Parallax orb
+  // Parallax orb on mouse move
   useEffect(() => {
     const fn = (e) => {
       const orb = document.querySelector('.hero-orb');
@@ -49,8 +49,8 @@ export default function Landing() {
 
   // Scroll reveal
   useEffect(() => {
-    const obs = new IntersectionObserver(entries =>
-      entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
       { threshold: 0.1 }
     );
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
@@ -63,38 +63,46 @@ export default function Landing() {
     setLoading(true);
     try {
       const res  = await fetch('/api/subscribe', {
-        method: 'POST',
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'landing' }),
+        body:    JSON.stringify({ email, source: 'landing-hero' }),
       });
       const data = await res.json();
       if (data.success) { toast.success(data.message); setEmail(''); }
       else toast.error(data.message || 'Something went wrong.');
-    } catch { toast.error('Connection error. Try again.'); }
-    finally { setLoading(false); }
+    } catch {
+      toast.error('Connection error. Try again.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <div className="landing">
 
-      {/* ── HERO ─────────────────────────────────────────────────── */}
+      {/* ── HERO ────────────────────────────────────────────── */}
       <section className="hero" ref={heroRef}>
         <div className="hero-bg">
           <div className="hero-orb" />
           <div className="hero-grid" />
         </div>
+
         <div className="container hero-content">
           <div className="badge hero-badge animate-fade-up">
             <span>✦</span> Now in Early Access · Android
           </div>
+
           <h1 className="hero-title animate-fade-up" style={{ animationDelay: '0.1s' }}>
             Your Business,<br />
             <em className="gold-text">Intelligently</em> Managed.
           </h1>
+
           <p className="hero-sub animate-fade-up" style={{ animationDelay: '0.2s' }}>
             Astric is the all-in-one business suite with an AI assistant built in —
             CRM, tasks, finance, and website generation, all from your Android phone.
           </p>
+
+          {/* Early access email form */}
           <form className="hero-form animate-fade-up" style={{ animationDelay: '0.3s' }} onSubmit={handleEarly}>
             <input
               type="email"
@@ -105,11 +113,18 @@ export default function Landing() {
               required
             />
             <button type="submit" className="btn btn-gold" disabled={loading}>
-              {loading ? 'Joining…' : 'Get Early Access'}
+              {loading ? 'Joining…' : 'Notify Me'}
             </button>
           </form>
-          <p className="hero-note animate-fade-up" style={{ animationDelay: '0.4s' }}>
-            Free to start · No credit card required · Android app
+
+          {/* Download CTA — coming soon */}
+          <div className="hero-download-row animate-fade-up" style={{ animationDelay: '0.38s' }}>
+            <DownloadButton />
+            <span className="hero-download-note">Android · Coming soon on Google Play</span>
+          </div>
+
+          <p className="hero-note animate-fade-up" style={{ animationDelay: '0.44s' }}>
+            Free to start · No credit card required
           </p>
         </div>
 
@@ -138,7 +153,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── STATS STRIP ──────────────────────────────────────────── */}
+      {/* ── STATS STRIP ─────────────────────────────────────── */}
       <section className="stats-strip">
         <div className="divider" />
         <div className="container stats-inner">
@@ -152,8 +167,8 @@ export default function Landing() {
         <div className="divider" />
       </section>
 
-      {/* ── FEATURES ─────────────────────────────────────────────── */}
-      <section className="section features-section" ref={sectRef}>
+      {/* ── FEATURES ────────────────────────────────────────── */}
+      <section className="section features-section">
         <div className="container">
           <div className="section-head reveal">
             <p className="section-label">What's Inside</p>
@@ -172,7 +187,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── AI SPOTLIGHT ─────────────────────────────────────────── */}
+      {/* ── AI SPOTLIGHT ────────────────────────────────────── */}
       <section className="section ai-section">
         <div className="container ai-inner">
           <div className="ai-visual reveal">
@@ -201,12 +216,12 @@ export default function Landing() {
               <li>📊 Real-time financial and pipeline summaries</li>
               <li>✏️ Edit and iterate websites (Premium)</li>
             </ul>
-            <Link to="/product" className="btn btn-outline">Explore All Features →</Link>
+            <Link to="/features" className="btn btn-outline">Explore All Features →</Link>
           </div>
         </div>
       </section>
 
-      {/* ── PRICING ──────────────────────────────────────────────── */}
+      {/* ── PRICING ─────────────────────────────────────────── */}
       <section className="section pricing-section" id="pricing">
         <div className="container">
           <div className="section-head reveal">
@@ -237,7 +252,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── CTA BANNER ───────────────────────────────────────────── */}
+      {/* ── CTA BANNER ──────────────────────────────────────── */}
       <section className="section cta-section">
         <div className="container">
           <div className="cta-card reveal">
@@ -249,12 +264,9 @@ export default function Landing() {
             </p>
             <div className="cta-actions">
               <Link to="/contact" className="btn btn-gold">Get Early Access</Link>
-              <Link to="/how-to-use" className="btn" style={{ background: 'rgba(255,255,255,0.08)', color: 'var(--white)', border: '1px solid rgba(255,255,255,0.15)' }}>See How It Works</Link>
+              <DownloadButton />
             </div>
-            <div className="android-badge">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#C8A96E"><path d="M17.523 15.341A5 5 0 0 0 19 12a5 5 0 0 0-1.477-3.341l1.393-1.394a.75.75 0 0 0-1.06-1.06l-1.394 1.393A5 5 0 0 0 13 6.082V4.75a.75.75 0 0 0-1.5 0v1.332A5 5 0 0 0 8.538 7.598L7.144 6.205a.75.75 0 1 0-1.06 1.06l1.393 1.394A5 5 0 0 0 6 12a5 5 0 0 0 1.477 3.341L6.083 16.74a.75.75 0 1 0 1.061 1.06l1.394-1.393A5 5 0 0 0 11.5 17.918V19.25a.75.75 0 0 0 1.5 0v-1.332a5 5 0 0 0 2.962-1.511l1.394 1.393a.75.75 0 1 0 1.06-1.06l-1.393-1.399zM12 16.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
-              Available on Android
-            </div>
+            <p className="cta-coming-soon">📱 Android app — download coming soon on Google Play</p>
           </div>
         </div>
       </section>

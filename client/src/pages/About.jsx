@@ -67,7 +67,7 @@ export default function About() {
             <p>
               Our goal is simple: give every business owner — from a solo freelancer to a 50-person team — the same operational clarity that Fortune 500 companies pay millions for.
             </p>
-            <Link to="/product" className="btn btn-outline" style={{ marginTop: '1rem', width: 'fit-content' }}>See What We Built →</Link>
+            <Link to="/features" className="btn btn-outline" style={{ marginTop: '1rem', width: 'fit-content' }}>See What We Built →</Link>
           </div>
           <div className="mission-visual reveal reveal-delay-2">
             <div className="mission-card">

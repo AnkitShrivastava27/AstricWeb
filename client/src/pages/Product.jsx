@@ -106,7 +106,7 @@ export default function Product() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="page-hero product-hero">
         <div className="container">
-          <div className="badge animate-fade-up"><span>✦</span> APP Overview</div>
+          <div className="badge animate-fade-up"><span>✦</span> Features Overview</div>
           <h1 className="animate-fade-up" style={{ animationDelay: '0.1s' }}>
             Built for business.<br /><em className="gold-text">Powered by AI.</em>
           </h1>

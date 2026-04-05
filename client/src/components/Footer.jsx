@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import './Footer.css';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
+  const [email,   setEmail]   = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleSubscribe(e) {
@@ -12,22 +12,26 @@ export default function Footer() {
     if (!email) return;
     setLoading(true);
     try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
+      const res  = await fetch('/api/subscribe', {
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'footer' }),
+        body:    JSON.stringify({ email, source: 'footer' }),
       });
       const data = await res.json();
       if (data.success) { toast.success(data.message); setEmail(''); }
       else toast.error(data.message || 'Something went wrong.');
-    } catch { toast.error('Connection error. Try again.'); }
-    finally { setLoading(false); }
+    } catch {
+      toast.error('Connection error. Try again.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <footer className="footer">
       <div className="divider" />
       <div className="container footer-grid">
+
         {/* Brand */}
         <div className="footer-brand">
           <Link to="/" className="footer-logo">
@@ -38,8 +42,9 @@ export default function Footer() {
             Built for growing teams, ready for scale.
           </p>
           <div className="footer-social">
-            {['twitter','linkedin','instagram'].map(s => (
-              <a key={s} href={`https://${s}.com`} target="_blank" rel="noreferrer" className="social-icon" aria-label={s}>
+            {['twitter', 'linkedin', 'instagram'].map(s => (
+              <a key={s} href={`https://${s}.com`} target="_blank" rel="noreferrer"
+                className="social-icon" aria-label={s}>
                 {s === 'twitter'   && <TwitterIcon />}
                 {s === 'linkedin'  && <LinkedInIcon />}
                 {s === 'instagram' && <InstagramIcon />}
@@ -48,11 +53,11 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Links */}
+        {/* Nav columns */}
         <div className="footer-col">
-          <h5 className="footer-col-title">Product</h5>
-          <Link to="/product">Features</Link>
-          <Link to="/product#pricing">Pricing</Link>
+          <h5 className="footer-col-title">Features</h5>
+          <Link to="/features">All Features</Link>
+          <Link to="/features#pricing">Pricing</Link>
           <Link to="/how-to-use">How It Works</Link>
           <Link to="/support">Changelog</Link>
         </div>
@@ -62,21 +67,18 @@ export default function Footer() {
           <Link to="/about">About Us</Link>
           <Link to="/about#team">Team</Link>
           <Link to="/contact">Contact</Link>
-          <a href="https://bussiness-3c966.web.app/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>
+          <a href="#">Privacy Policy</a>
         </div>
 
         <div className="footer-col">
           <h5 className="footer-col-title">Support</h5>
           <Link to="/support">Help Center</Link>
           <Link to="/support#faq">FAQ</Link>
-         
-           <a href="https://bussiness-3c966.web.app/AstricHelp" target="_blank" rel="noopener noreferrer">
-    Documentation
-  </a>
+          <Link to="/how-to-use">Documentation</Link>
           <Link to="/contact">Report a Bug</Link>
         </div>
 
-        {/* Newsletter */}
+        {/* Notify Me — backend + Nodemailer */}
         <div className="footer-newsletter">
           <h5 className="footer-col-title">Early Access</h5>
           <p>Be first to know when Astric launches on Android.</p>
@@ -90,16 +92,17 @@ export default function Footer() {
               required
             />
             <button type="submit" className="btn btn-gold sub-btn" disabled={loading}>
-              {loading ? '...' : 'Notify Me'}
+              {loading ? '…' : 'Notify Me'}
             </button>
           </form>
+          <p className="sub-note">No spam. Unsubscribe anytime.</p>
         </div>
       </div>
 
       <div className="divider" />
       <div className="container footer-bottom">
         <p>© {new Date().getFullYear()} Astric Technologies. All rights reserved.</p>
-        <p className="footer-made">Made with ✦ in India</p>
+        <p className="footer-made">from- India</p>
       </div>
     </footer>
   );

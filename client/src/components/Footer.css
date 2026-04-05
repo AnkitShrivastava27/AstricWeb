@@ -95,6 +95,7 @@
 .sub-input::placeholder { color: var(--gray-700); }
 
 .sub-btn { justify-content: center; padding: 12px; font-size: 0.85rem; }
+.sub-note { font-size: 0.72rem; color: var(--gray-700); margin-top: 4px; }
 
 /* Bottom */
 .footer-bottom {
