@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import './Footer.css';
+import { api } from '../lib/api';
 
 export default function Footer() {
   const [email,   setEmail]   = useState('');
@@ -12,7 +13,7 @@ export default function Footer() {
     if (!email) return;
     setLoading(true);
     try {
-      const res  = await fetch('/api/subscribe', {
+      const res  = await api('/api/subscribe', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ email, source: 'footer' }),
