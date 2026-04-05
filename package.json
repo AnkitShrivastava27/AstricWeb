@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Astric Technologies marketing website",
   "scripts": {
+
     "start": "node server/index.js"
   },
   "dependencies": {
