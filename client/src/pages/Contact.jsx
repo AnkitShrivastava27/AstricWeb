@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import './Contact.css';
+import { api } from '../lib/api';
 
 const SUBJECTS = [
   'General Inquiry',
@@ -48,7 +49,7 @@ export default function Contact() {
     }
     setLoading(true);
     try {
-      const res  = await fetch('/api/contact', {
+      const res  = await api('/api/contact', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(form),
