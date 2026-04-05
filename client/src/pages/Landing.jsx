@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { DownloadButton } from '../components/Navbar.jsx';
 import './Landing.css';
-
+import { api } from '../lib/api';
 const FEATURES = [
   { icon: '🤖', title: 'AI Business Assistant', desc: 'Ask anything in plain English. Get instant answers about your tasks, leads, and revenue — powered by DeepSeek AI with live data.' },
   { icon: '👥', title: 'CRM & Lead Pipeline', desc: 'Track leads from first contact to closed deal. Hot prospects, win rates, and pipeline value — all in one view.' },

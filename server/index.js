@@ -10,6 +10,10 @@ const subscribeRouter = require('./routes/subscribe');
 const app  = express();
 const PORT = process.env.PORT || 5000;
 
+// ── Trust proxy — required on Render / any reverse-proxy host ─────────────────
+// Tells Express to trust the X-Forwarded-For header so rate-limit works correctly
+app.set('trust proxy', 1);
+
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'

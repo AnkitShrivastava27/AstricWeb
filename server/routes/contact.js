@@ -21,11 +21,13 @@ const validate = [
 ];
 
 // ── Nodemailer transporter factory ────────────────────────────────────────
+// Port 465 + secure:true (SSL) — required on Render which blocks port 587 (STARTTLS)
+// In your .env set: SMTP_HOST=smtp.gmail.com  SMTP_PORT=465
 function createTransporter() {
   return nodemailer.createTransport({
     host:   process.env.SMTP_HOST || 'smtp.gmail.com',
-    port:   Number(process.env.SMTP_PORT) || 587,
-    secure: false, // STARTTLS
+    port:   Number(process.env.SMTP_PORT) || 465,
+    secure: true, // SSL — must be true for port 465
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
